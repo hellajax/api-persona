@@ -43,9 +43,28 @@ class PersonaController extends Controller
         return response()->json($info, 200);
     }
 
-    public function alta()
+    public function alta(Request $request)
     {
-        return "Crear persona desde el controller";
+        $persona = Persona::create([
+            'nombre' => $request->nombre,
+            'apellido' => $request->apellido,
+            'telefono' => $request->telefono
+        ]);
+
+        if (!$persona) {
+            $info = [
+                'mensaje' => 'Error al crear la persona',
+                'status' => 500
+            ];
+            return response()->json($info, 500);
+        }
+
+        $info = [
+            'mensaje' => $persona,
+            'status' => 201
+        ];
+
+        return response()->json($info, 201);
     }
 
     public function modificar()
