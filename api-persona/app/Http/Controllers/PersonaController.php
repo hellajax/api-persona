@@ -12,12 +12,12 @@ class PersonaController extends Controller
         return "Listar desde el controller";
     }
 
-    public function listarPersona()
+    public function buscar()
     {
-        return "Listar persona desde el controller";
+        return "Buscar persona desde el controller";
     }
 
-    public function crear()
+    public function alta()
     {
         return "Crear persona desde el controller";
     }
@@ -32,7 +32,7 @@ class PersonaController extends Controller
         return "Semi modificar persona desde el controller";
     }
 
-    public function eliminar()
+    public function baja()
     {
         return "Eliminar persona desde el controller";
     }
