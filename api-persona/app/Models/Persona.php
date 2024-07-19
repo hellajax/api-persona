@@ -10,6 +10,7 @@ class Persona extends Model
     use HasFactory;
 
     protected $table = 'personas';
+    public $timestamps = false;
 
     protected $fillable = [
         'nombre',

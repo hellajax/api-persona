@@ -20,21 +20,6 @@ class PersonaController extends Controller
 
     public function alta(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'nombre' => 'required',
-            'apellido' => 'required',
-            'telefono' => 'required'
-        ]);
-
-        if ($validator->fails()) {
-            $info = [
-                'mensaje' => 'Error en la validación de datos',
-                'error' => $validator->errors(),
-                'status' => 400
-            ];
-            return response()->json($info, 400);
-        };
-
         $persona = Persona::create([
             'nombre' => $request->nombre,
             'apellido' => $request->apellido,
