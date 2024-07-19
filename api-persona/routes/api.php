@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PersonaController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,26 +15,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/personas', function () {
-    return "Listar personas";
-});
+Route::get('/personas', [PersonaController::class, 'listar']);
 
-Route::get('/personas/{id}', function () {
-    return "Devolver una persona";
-});
+Route::get('/personas/{id}', [PersonaController::class, 'listarPersona']);
 
-Route::post('/personas', function () {
-    return "Crear persona";
-});
+Route::post('/personas', [PersonaController::class, 'crear']);
 
-Route::put('/personas/{id}', function () {
-    return "Modificar persona";
-});
+Route::put('/personas/{id}', [PersonaController::class, 'modificar']);
 
-Route::patch('/personas/{id}', function () {
-    return "Modificar parcialmente persona";
-});
+Route::patch('/personas/{id}', [PersonaController::class, 'semiModificar']);
 
-Route::delete('/personas/{id}', function () {
-    return "Eliminar persona";
-});
+Route::delete('/personas/{id}', [PersonaController::class, 'eliminar']);
