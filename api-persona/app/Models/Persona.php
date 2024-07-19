@@ -10,10 +10,5 @@ class Persona extends Model
     use HasFactory;
 
     protected $table = 'personas';
-
-    protected $fillable = [
-        'nombre',
-        'apellido',
-        'telefono'
-    ];
+    public $timestamps = false;
 }

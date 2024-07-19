@@ -17,12 +17,12 @@ use App\Http\Controllers\PersonaController;
 
 Route::get('/personas', [PersonaController::class, 'listar']);
 
-Route::get('/personas/{id}', [PersonaController::class, 'listarPersona']);
+Route::get('/personas/{id}', [PersonaController::class, 'buscar']);
 
-Route::post('/personas', [PersonaController::class, 'crear']);
+Route::post('/personas', [PersonaController::class, 'alta']);
 
 Route::put('/personas/{id}', [PersonaController::class, 'modificar']);
 
 Route::patch('/personas/{id}', [PersonaController::class, 'semiModificar']);
 
-Route::delete('/personas/{id}', [PersonaController::class, 'eliminar']);
+Route::delete('/personas/{id}', [PersonaController::class, 'baja']);
