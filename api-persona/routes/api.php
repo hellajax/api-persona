@@ -30,7 +30,7 @@ Route::put('/personas/{id}', function () {
     return "Modificar persona";
 });
 
-Route::patch('/personas/{patch}', function () {
+Route::patch('/personas/{id}', function () {
     return "Modificar parcialmente persona";
 });
 
