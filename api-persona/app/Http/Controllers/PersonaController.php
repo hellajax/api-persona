@@ -9,7 +9,17 @@ class PersonaController extends Controller
 {
     public function listar()
     {
-        return "Listar desde el controller";
+        $personas = Persona::all();
+
+        if ($personas->isEmpty()){
+            $info = [
+                'message' => 'No hay personas que mostrar',
+                'status' => 200
+            ];
+            return response()->json($info, 200);
+        }
+
+        return response()->json($personas, 200);
     }
 
     public function buscar()
