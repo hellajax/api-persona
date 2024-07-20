@@ -14,7 +14,7 @@ class PersonaController extends Controller
 
         if ($personas->isEmpty()){
             $info = [
-                'message' => 'No hay personas que mostrar',
+                'mensaje' => 'No hay personas que mostrar',
                 'status' => 200
             ];
             return response()->json($info, 200);
@@ -29,7 +29,7 @@ class PersonaController extends Controller
 
         if (!$persona){
             $info = [
-                'message' => 'No hay persona que mostrar',
+                'mensaje' => 'No hay persona que mostrar',
                 'status' => 404
             ];
             return response()->json($info, 404);
