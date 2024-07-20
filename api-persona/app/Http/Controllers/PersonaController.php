@@ -67,9 +67,28 @@ class PersonaController extends Controller
         return response()->json($info, 201);
     }
 
-    public function modificar()
+    public function modificar(Request $request, $id)
     {
-        return "Modificar persona desde el controller";
+        $persona = Persona::find($id);
+
+        if (!$persona) {
+            $info = [
+                'mensaje' => 'Persona no encontrada',
+                'status' => 404
+            ];
+            return response()->json($info, 404);
+        }
+
+        $persona->nombre = $request->nombre;
+        $persona->apellido = $request->apellido;
+        $persona->telefono = $request->telefono;
+        $persona->save();
+
+        $info = [
+            'mensaje' => $persona,
+            'status' => 201
+        ];
+        return response()->json($info, 201);
     }
 
     public function semiModificar()
