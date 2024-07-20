@@ -8,6 +8,14 @@ use Illuminate\Support\Facades\Validator;
 
 class PersonaController extends Controller
 {
+    public function personaNoEncontrada($id){
+        $info = [
+            'mensaje' => 'Persona no encontrada',
+            'status' => 404
+        ];
+        return $info;
+    } 
+
     public function listar()
     {
         $personas = Persona::all();
@@ -27,11 +35,8 @@ class PersonaController extends Controller
     {
         $persona = Persona::find($id);
 
-        if (!$persona){
-            $info = [
-                'mensaje' => 'Persona no encontrada',
-                'status' => 404
-            ];
+        if (!$persona) {
+            $info = $this->personaNoEncontrada($id);
             return response()->json($info, 404);
         }
 
@@ -72,10 +77,7 @@ class PersonaController extends Controller
         $persona = Persona::find($id);
 
         if (!$persona) {
-            $info = [
-                'mensaje' => 'Persona no encontrada',
-                'status' => 404
-            ];
+            $info = $this->personaNoEncontrada($id);
             return response()->json($info, 404);
         }
 
@@ -96,10 +98,7 @@ class PersonaController extends Controller
         $persona = Persona::find($id);
 
         if (!$persona) {
-            $info = [
-                'mensaje' => 'Persona no encontrada',
-                'status' => 404
-            ];
+            $info = $this->personaNoEncontrada($id);
             return response()->json($info, 404);
         }
 
@@ -126,10 +125,7 @@ class PersonaController extends Controller
         $persona = Persona::find($id);
 
         if (!$persona) {
-            $info = [
-                'mensaje' => 'Persona no encontrada',
-                'status' => 404
-            ];
+            $info = $this->personaNoEncontrada($id);
             return response()->json($info, 404);
         }
 
