@@ -29,7 +29,7 @@ class PersonaController extends Controller
 
         if (!$persona){
             $info = [
-                'mensaje' => 'No hay persona que mostrar',
+                'mensaje' => 'Persona no encontrada',
                 'status' => 404
             ];
             return response()->json($info, 404);
@@ -67,18 +67,78 @@ class PersonaController extends Controller
         return response()->json($info, 201);
     }
 
-    public function modificar()
+    public function modificar(Request $request, $id)
     {
-        return "Modificar persona desde el controller";
+        $persona = Persona::find($id);
+
+        if (!$persona) {
+            $info = [
+                'mensaje' => 'Persona no encontrada',
+                'status' => 404
+            ];
+            return response()->json($info, 404);
+        }
+
+        $persona->nombre = $request->nombre;
+        $persona->apellido = $request->apellido;
+        $persona->telefono = $request->telefono;
+        $persona->save();
+
+        $info = [
+            'mensaje' => $persona,
+            'status' => 201
+        ];
+        return response()->json($info, 201);
     }
 
-    public function semiModificar()
+    public function semiModificar(Request $request, $id)
     {
-        return "Semi modificar persona desde el controller";
+        $persona = Persona::find($id);
+
+        if (!$persona) {
+            $info = [
+                'mensaje' => 'Persona no encontrada',
+                'status' => 404
+            ];
+            return response()->json($info, 404);
+        }
+
+        if ($request->has('nombre'))
+            $persona->nombre = $request->nombre;
+
+        if ($request->has('apellido'))
+            $persona->apellido = $request->apellido;
+
+        if ($request->has('telefono'))
+            $persona->telefono = $request->telefono;
+
+        $persona->save();
+
+        $info = [
+            'mensaje' => $persona,
+            'status' => 201
+        ];
+        return response()->json($info, 201);
     }
 
-    public function baja()
+    public function baja(Request $request, $id)
     {
-        return "Eliminar persona desde el controller";
+        $persona = Persona::find($id);
+
+        if (!$persona) {
+            $info = [
+                'mensaje' => 'Persona no encontrada',
+                'status' => 404
+            ];
+            return response()->json($info, 404);
+        }
+
+        $persona->delete();
+
+        $info = [
+            'mensaje' => "Persona eliminada",
+            'status' => 201
+        ];
+        return response()->json($info, 201);
     }
 }
