@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Persona;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -50,20 +51,22 @@ class PersonaController extends Controller
 
     public function alta(Request $request)
     {
-        $persona = Persona::create([
-            'nombre' => $request->nombre,
-            'apellido' => $request->apellido,
-            'telefono' => $request->telefono
-        ]);
+        try {
+            $persona = Persona::create([
+                'nombre' => $request->nombre,
+                'apellido' => $request->apellido,
+                'telefono' => $request->telefono
+            ]);
 
-        if (!$persona) {
+        } catch (Exception $e) {
             $info = [
                 'mensaje' => 'Error al crear la persona',
+                'excepción' => $e,
                 'status' => 500
             ];
             return response()->json($info, 500);
         }
-
+ 
         $info = [
             'mensaje' => $persona,
             'status' => 201
@@ -81,10 +84,19 @@ class PersonaController extends Controller
             return response()->json($info, 404);
         }
 
-        $persona->nombre = $request->nombre;
-        $persona->apellido = $request->apellido;
-        $persona->telefono = $request->telefono;
-        $persona->save();
+        try {
+            $persona->nombre = $request->nombre;
+            $persona->apellido = $request->apellido;
+            $persona->telefono = $request->telefono;
+            $persona->save();
+        } catch (Exception $e) {
+            $info = [
+                'mensaje' => 'Error al modificar la persona',
+                'excepción' => $e,
+                'status' => 500
+            ];
+            return response()->json($info, 500);
+        }
 
         $info = [
             'mensaje' => $persona,
