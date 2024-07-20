@@ -3,7 +3,7 @@ Api que permite realizar alta, baja, modificación, modificación parcial, lista
 
 Se usa la extensión Thunder Client para testing en VSCode.
 
-# Conexión en mysql
+# conexión en mysql
 DB_CONNECTION=mysql
 
 DB_HOST=127.0.0.1
