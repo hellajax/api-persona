@@ -3,10 +3,27 @@
 namespace App\Http\Controllers;
 
 use App\Models\Persona;
+use Exception;
 use Illuminate\Http\Request;
 
 class PersonaController extends Controller
 {
+    public function personaNoEncontrada($id){
+        $info = [
+            'mensaje' => 'Persona no encontrada',
+            'status' => 404
+        ];
+        return $info;
+    } 
+
+    public function modificarBD($persona){
+        $info = [
+            'mensaje' => $persona,
+            'status' => 201
+        ];
+        return $info;
+    } 
+
     public function listar()
     {
         $personas = Persona::all();
@@ -26,11 +43,8 @@ class PersonaController extends Controller
     {
         $persona = Persona::find($id);
 
-        if (!$persona){
-            $info = [
-                'mensaje' => 'No hay persona que mostrar',
-                'status' => 404
-            ];
+        if (!$persona) {
+            $info = $this->personaNoEncontrada($id);
             return response()->json($info, 404);
         }
 
@@ -44,40 +58,92 @@ class PersonaController extends Controller
 
     public function alta(Request $request)
     {
-        $persona = Persona::create([
-            'nombre' => $request->nombre,
-            'apellido' => $request->apellido,
-            'telefono' => $request->telefono
-        ]);
+        try {
+            $persona = Persona::create([
+                'nombre' => $request->nombre,
+                'apellido' => $request->apellido,
+                'telefono' => $request->telefono
+            ]);
 
-        if (!$persona) {
+        } catch (Exception $e) {
             $info = [
                 'mensaje' => 'Error al crear la persona',
+                'excepción' => $e,
+                'status' => 500
+            ];
+            return response()->json($info, 500);
+        }
+ 
+        $info = $this->modificarBD($persona);
+        return response()->json($info, 201);
+    }
+
+    public function modificar(Request $request, $id)
+    {
+        $persona = Persona::find($id);
+
+        if (!$persona) {
+            $info = $this->personaNoEncontrada($id);
+            return response()->json($info, 404);
+        }
+
+        try {
+            $persona->nombre = $request->nombre;
+            $persona->apellido = $request->apellido;
+            $persona->telefono = $request->telefono;
+            $persona->save();
+        } catch (Exception $e) {
+            $info = [
+                'mensaje' => 'Error al modificar la persona',
+                'excepción' => $e,
                 'status' => 500
             ];
             return response()->json($info, 500);
         }
 
-        $info = [
-            'mensaje' => $persona,
-            'status' => 201
-        ];
-
+        $info = $this->modificarBD($persona);
         return response()->json($info, 201);
     }
 
-    public function modificar()
+    public function semiModificar(Request $request, $id)
     {
-        return "Modificar persona desde el controller";
+        $persona = Persona::find($id);
+
+        if (!$persona) {
+            $info = $this->personaNoEncontrada($id);
+            return response()->json($info, 404);
+        }
+
+        if ($request->has('nombre'))
+            $persona->nombre = $request->nombre;
+
+        if ($request->has('apellido'))
+            $persona->apellido = $request->apellido;
+
+        if ($request->has('telefono'))
+            $persona->telefono = $request->telefono;
+
+        $persona->save();
+
+        $info = $this->modificarBD($persona);
+        return response()->json($info, 201);
     }
 
-    public function semiModificar()
+    public function baja(Request $request, $id)
     {
-        return "Semi modificar persona desde el controller";
-    }
+        $persona = Persona::find($id);
 
-    public function baja()
-    {
-        return "Eliminar persona desde el controller";
+        if (!$persona) {
+            $info = $this->personaNoEncontrada($id);
+            return response()->json($info, 404);
+        }
+
+        $persona->delete();
+
+        $info = [
+            'mensaje' => "Persona eliminada",
+            'status' => 201
+        ];
+        return response()->json($info, 201);
     }
 }
