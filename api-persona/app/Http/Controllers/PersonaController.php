@@ -17,6 +17,14 @@ class PersonaController extends Controller
         return $info;
     } 
 
+    public function modificarBD($persona){
+        $info = [
+            'mensaje' => $persona,
+            'status' => 201
+        ];
+        return $info;
+    } 
+
     public function listar()
     {
         $personas = Persona::all();
@@ -67,11 +75,7 @@ class PersonaController extends Controller
             return response()->json($info, 500);
         }
  
-        $info = [
-            'mensaje' => $persona,
-            'status' => 201
-        ];
-
+        $info = $this->modificarBD($persona);
         return response()->json($info, 201);
     }
 
@@ -98,10 +102,7 @@ class PersonaController extends Controller
             return response()->json($info, 500);
         }
 
-        $info = [
-            'mensaje' => $persona,
-            'status' => 201
-        ];
+        $info = $this->modificarBD($persona);
         return response()->json($info, 201);
     }
 
@@ -125,10 +126,7 @@ class PersonaController extends Controller
 
         $persona->save();
 
-        $info = [
-            'mensaje' => $persona,
-            'status' => 201
-        ];
+        $info = $this->modificarBD($persona);
         return response()->json($info, 201);
     }
 
